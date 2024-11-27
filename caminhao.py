@@ -11,7 +11,11 @@ class Caminhao:
         self.posto_atual = None
         self.fila_encomendas = deque()
         pass
-    
+
+    def getCargasLivres(self):
+        return self.carga_maxima - self.fila_encomendas.count()
+
+
     def irProProximoPosto (self, primeiro_posto): # Usar na main durante a primeira viagem do caminhão
         time.sleep(random.uniform(0.1, 0.5))
         self.posto_atual = primeiro_posto  
@@ -24,18 +28,23 @@ class Caminhao:
         pass
 
     
-    def irProProximoPosto (self):
+    def irProProximoPosto (self, proximo_posto):
         time.sleep(random.uniform(0.1, 0.5))
-        self.posto_atual = self.posto_atual.getProximoPosto() # Consertar : Quando estiver saindo do último posto, não aumentar 1, mas sim, voltar ao posto 1.
+        self.posto_atual = proximo_posto # Consertar : Quando estiver saindo do último posto, não aumentar 1, mas sim, voltar ao posto 1.
         
         for encomenda in self.fila_encomendas:
             if encomenda.dest == self.posto_atual.getPostoNum():
                 self.posto_atual.receberCaminhao(self)
-            elif self.posto_atual.getFilaDespachoQuantidade() > 0:
+            elif self.posto_atual.getFilaDespachoQuantidade() > 0 and self.getCargasLivres > 0: # Entra na fila caso possua espaços livres 
                 self.posto_atual.receberCaminhao(self)
-        
+            else:
+                self.irProProximoPosto(self.posto_atual.getProximoPosto()) # Vai pro próximo posto direto
         pass
 
-    def pegarPacote (self):
+    def pegarEncomenda (self, pacote):
+        self.fila_encomendas.append(pacote)
+        pass
 
+    def deixarEncomenda (self):
+        # pop da encomenda, mas precisa ser aquela encomenda específica!
         pass

@@ -1,4 +1,7 @@
 from collections import deque
+import time
+import random
+
 
 class postoEncomenda:
  
@@ -28,14 +31,25 @@ class postoEncomenda:
         self.fila_caminhoes.append(caminhao)
         pass
     
-    def enviarEncomenda (self, encomenda):
+    def enviarEncomenda (self):
+        while (self.fila_caminhoes.index(0).getCargasLivres > 0):
+            time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
+            self.fila_caminhoes.index(0).pegarEncomenda(self.fila_despacho.index(0))
+            self.fila_despacho.popleft()
         pass
-
-
-    def receberEncomenda (self, encomenda):
-        self.fila_encomendas.append(encomenda)
+ 
+    def receberEncomenda (self):
+        for encomenda in self.fila_caminhoes.index(0).fila_encomendas:
+            if encomenda.dest == self.num:
+                time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
+                self.fila_encomendas.append(encomenda)
+                self.fila_caminhoes.index(0).deixarEncomenda(self.fila_despacho.index(0))
+                # Encomenda.setCarregado
+            pass
+        self.enviarEncomenda()
 
     def liberarCaminhao (self):
+        self.fila_caminhoes.index(0).irProProximoPosto()
         self.fila_caminhoes.popleft()
         pass
     
