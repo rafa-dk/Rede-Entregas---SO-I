@@ -3,31 +3,46 @@ import time
 import random
 
 class Encomenda:
-    def __init__(self, num, org, dest):
+    def __init__(self, num, orig, dest):
         self.num = num
-        self.org = org
+        self.orig = orig
         self.dest = dest
         self.horario_chegada = None
         self.horario_carregado = None
-        self.num_caminhao = None
+        self.caminhao = None
         self.horario_descarregado = None
+        
+    def setChegada(self, horario):
+        self.horario_chegada = horario
+
+    def setCarregado(self, horario):
+        self.horario_carregado = horario
+
+    def setCaminhao(self, caminhao):
+        self.caminhao = caminhao
+
+    def setDescarregado(self, horario):
+        self.horario_descarregado = horario
+
+    def getNum(self):
+        return self.num
 
     def monitoramento(self):
         print(f'{self.num=}')
-        print(f'{self.org=}')
+        print(f'{self.orig=}')
         print(f'{self.dest=}')
         print(f'{self.horario_chegada=}')
-        print(f'{self.num_caminhao=}')
+        print(f'{self.horario_carregado=}')
+        print(f'{self.caminhao=}')
         print(f'{self.horario_descarregado=}')
 
-    def escrever_arq(self):
-
+    def escreverArq(self, log):
         filename = f"package_{self.num}_log.txt"
         with open(filename, "w") as file:
-            file.write("Número da Encomenda: {}\n".format(self.num))
-            file.write("Ponto de Origem: {}\n".format(log["origin"]))
-            file.write("Ponto de Destino: {}\n".format(log["destination"]))
-            file.write("Horário de Chegada ao Ponto de Origem: {}\n".format(log["arrival_time"]))
-            file.write("Horário de Carregamento no Veículo: {}\n".format(log["load_time"]))
-            file.write("Identificador do Veículo: {}\n".format(log["vehicle_id"]))
-            file.write("Horário de Descarregamento: {}\n".format(log["unload_time"]))
+            file.write("Numero da Encomenda: {}\n".format(self.num))
+            file.write("Ponto de Origem: {}\n".format(log["orig"]))
+            file.write("Ponto de Destino: {}\n".format(log["dest"]))
+            file.write("Horario de Chegada ao Ponto de Origem: {}\n".format(log["horario_chegada"]))
+            file.write("Horario de Carregamento no Veiculo: {}\n".format(log["horario_carregado"]))
+            file.write("Identificador do Caminhao: {}\n".format(log["caminhao"]))
+            file.write("Horario de Descarregamento: {}\n".format(log["horario_descarregado"]))
