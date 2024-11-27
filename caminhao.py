@@ -60,6 +60,7 @@ class Caminhao(threading.Thread):
                 self.fila_encomendas.append(encomenda)
                 self.semaforo.acquire()  # Reserva um espaço
                 encomenda.setCarregado(time.time())  # Atualiza o log
+                encomenda.setCaminhao(self)
                 time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
 
         self.irProProximoPosto(self.posto_atual.getProxPosto())
