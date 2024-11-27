@@ -27,14 +27,15 @@ class Encomenda:
     def getNum(self):
         return self.num
 
-    def monitoramento(self):
-        print(f'{self.num=}')
-        print(f'{self.orig=}')
-        print(f'{self.dest=}')
-        print(f'{self.horario_chegada=}')
-        print(f'{self.horario_carregado=}')
-        print(f'{self.caminhao=}')
-        print(f'{self.horario_descarregado=}')
+    #Nao precisa necessariamente ser um metodo dessa classe
+    def monitoramento(S, lista_pontos, caminhao):
+        print("\n--- Monitoramento em tempo real ---")
+        for i in range(S):
+            print(f"Ponto {i}: {len(lista_pontos[i])} encomendas aguardando.")
+        for i, caminhao in enumerate(caminhao):
+            print(f"Veículo {i}: No ponto {caminhao.get('point', 'N/A')} com {caminhao.get('load', 0)} encomendas.")
+        print("------------------------------------")
+        time.sleep(1)
 
     def escreverArq(self, log):
         filename = f"package_{self.num}_log.txt"
