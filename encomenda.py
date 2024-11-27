@@ -25,7 +25,7 @@ class Encomenda:
     def setDescarregado(self, horario):
         self.horario_descarregado = horario
 
-    def getNum(self):
+    def getId(self):
         return self.id
     
     def getOrig(self):
