@@ -47,13 +47,13 @@ class Encomenda:
         print("------------------------------------")
         time.sleep(1)
 
-    def escreverArq(self, log):
-        filename = f"package_{self.id}_log.txt"
+    def escreverArq(self):
+        filename = f"encomenda_{self.id}_log.txt"
         with open(filename, "w") as file:
-            file.write("Numero da Encomenda: {}\n".format(self.id))
-            file.write("Ponto de Origem: {}\n".format(log["orig"]))
-            file.write("Ponto de Destino: {}\n".format(log["dest"]))
-            file.write("Horario de Chegada ao Ponto de Origem: {}\n".format(log["horario_chegada"]))
-            file.write("Horario de Carregamento no Veiculo: {}\n".format(log["horario_carregado"]))
-            file.write("Identificador do Caminhao: {}\n".format(log["caminhao"]))
-            file.write("Horario de Descarregamento: {}\n".format(log["horario_descarregado"]))
+            file.write(f"Numero da Encomenda: {self.id}\n")
+            file.write(f"Ponto de Origem: {self.orig}\n")
+            file.write(f"Ponto de Destino: {self.dest}\n")
+            file.write(f"Horario de Chegada ao Ponto de Origem: {self.horario_chegada}\n")
+            file.write(f"Horario de Carregamento no Veiculo: {self.horario_carregado}\n")
+            file.write(f"Identificador do Caminhao: {self.caminhao}\n")
+            file.write(f"Horario de Descarregamento: {self.horario_descarregado}\n")
