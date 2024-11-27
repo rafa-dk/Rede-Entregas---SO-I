@@ -14,6 +14,7 @@ def receberParametros ():
 
 
 # Configuração do Sistema
+'''
 def inicializar_sistema(n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_caminhoes):
     # Criando pontos de redistribuição
     pontos = [postoEncomenda(i) for i in range(n_pontos)]
@@ -31,13 +32,46 @@ def inicializar_sistema(n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_cami
         pontos[encomenda.orig].fila_despacho.append(encomenda)
 
     return pontos, caminhoes, encomendas
+'''
 
+def inicializar_pontos(n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_caminhoes):
+    # Criando pontos de redistribuição
+    pontos = [postoEncomenda(i) for i in range(n_pontos)]
+    for i in range(n_pontos):
+        pontos[i].setProxPosto(pontos[(i + 1) % n_pontos])
+    
+    return pontos
+
+def liberar_threads(threads):
+    for thread in threads:
+        print(f"{thread.name} liberado")
+        thread.join()
+    print("\nO programa acabou")
 
 if __name__ == "__main__":
 
     n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_caminhoes = receberParametros()
-    pontos, caminhoes, encomendas = inicializar_sistema(n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_caminhoes)
+    pontos = inicializar_pontos(n_pontos, n_caminhoes, n_encomendas, n_carga_maxima_caminhoes)
 
+    threads_encomendas = []
+    threads_caminhoes = []
+
+    for i in range(n_encomendas):
+        thread = threading.Thread(target=Encomenda, args=(i, n_pontos))
+        thread.setName(f"Encomenda {i}")
+        threads_encomendas.append(thread)
+        thread.start()
+
+    for i in range(n_caminhoes):
+        thread = threading.Thread(target=Caminhao, args=(i, n_carga_maxima_caminhoes, n_pontos))
+        thread.setName(f"Caminhao {i}")
+        threads_caminhoes.append(thread)
+        thread.start()
+
+    liberar_threads(threads_encomendas + threads_caminhoes)
+
+
+    '''
     # Iniciando os threads
     for caminhao in caminhoes:
         print(1)
@@ -55,3 +89,4 @@ if __name__ == "__main__":
     for encomenda in encomendas:
         print(4)
         encomenda.join()
+    '''
