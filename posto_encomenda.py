@@ -15,6 +15,13 @@ class postoEncomenda:
         self.lock = threading.Lock()  # Mutex para controlar um veículo por vez
         pass
 
+    def run(self, qtd_postos):
+        if (self.num != qtd_postos):
+            self.setProxPosto(self.num + 1)
+        else:
+            self.setProxPosto(0)
+        pass
+
     def setProxPosto (self, proximo_posto):
         self.proximo_posto = proximo_posto
         pass

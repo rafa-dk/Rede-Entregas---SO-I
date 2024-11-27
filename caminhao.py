@@ -6,20 +6,19 @@ import threading
 
 class Caminhao(threading.Thread):
     
-    def __init__(self, id, carga_maxima, dist_proximo_posto):
+    def __init__(self, id, carga_maxima, qtd_posto_enc):
         super().__init__()  # Chama o construtor da classe base threading.Thread
         self.id = id
         self.carga_maxima = carga_maxima
-        self.distancia_proximo_posto = dist_proximo_posto # *** não usamos ainda, retirar se for o caso!
-        self.posto_atual = None
+        #self.distancia_proximo_posto = dist_proximo_posto # *** não usamos ainda, retirar se for o caso!
+        self.posto_atual = random.randint(0, qtd_posto_enc-1)
         self.fila_encomendas = deque()
         self.semaforo = threading.Semaphore(carga_maxima)  # Semáforo para controlar os espaços de carga
         pass
 
         def run(self):
-            while True:
-                # Lógica do loop do caminhão
-                pass
+            self.pegarEncomenda()
+            pass
 
     def getCargasLivres(self):
         return self.carga_maxima - len(self.fila_encomendas)

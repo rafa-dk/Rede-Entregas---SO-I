@@ -17,9 +17,10 @@ class Encomenda(threading.Thread):
         self.horario_descarregado = None
 
     def run(self):
-            while True:
-                # Lógica do loop da encomenda
-                pass
+        while self.horario_descarregado is None:
+            time.sleep(1)
+        self.escreverArq()
+        pass
         
     def setChegada(self, horario):
         self.horario_chegada = horario
