@@ -4,12 +4,12 @@ import random
 
 class Encomenda:
 
-    def __init__(self, id, S):
+    def __init__(self, id, qtd_posto_enc):
         self.id = id
-        self.orig = random.randint(0, S-1)
+        self.orig = random.randint(0, qtd_posto_enc-1)
         self.dest = self.orig
         while self.dest == self.orig:
-            self.dest = random.randint(0, S-1)
+            self.dest = random.randint(0, qtd_posto_enc-1)
         self.horario_chegada = None
         self.horario_carregado = None
         self.caminhao = None
@@ -37,10 +37,11 @@ class Encomenda:
         return self.dest
 
     #Nao precisa necessariamente ser um metodo dessa classe
-    def monitoramento(S, lista_pontos, caminhao):
+    def monitoramento(qtd_posto_enc, lista_encomenda, caminhao):
         print("\n--- Monitoramento em tempo real ---")
-        for i in range(S):
-            print(f"Ponto {i}: {len(lista_pontos[i])} encomendas aguardando.")
+        for i in range(qtd_posto_enc):
+            #lista_encomenda = [[] for _ in range(S)]  ==> Filas nos pontos de redistribuição
+            print(f"Ponto {i}: {len(lista_encomenda[i])} encomendas aguardando.")
         for i, caminhao in enumerate(caminhao):
             print(f"Veículo {i}: No ponto {caminhao.get('point', 'N/A')} com {caminhao.get('load', 0)} encomendas.")
         print("------------------------------------")
