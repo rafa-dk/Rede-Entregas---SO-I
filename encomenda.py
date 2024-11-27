@@ -2,9 +2,10 @@ import threading
 import time
 import random
 
-class Encomenda:
+class Encomenda(threading.Thread):
 
     def __init__(self, id, qtd_posto_enc):
+        super().__init__()  # Chama o construtor da classe base threading.Thread
         self.id = id
         self.orig = random.randint(0, qtd_posto_enc-1)
         self.dest = self.orig
@@ -14,6 +15,11 @@ class Encomenda:
         self.horario_carregado = None
         self.caminhao = None
         self.horario_descarregado = None
+
+    def run(self):
+            while True:
+                # Lógica do loop da encomenda
+                pass
         
     def setChegada(self, horario):
         self.horario_chegada = horario
