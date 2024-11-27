@@ -28,14 +28,14 @@ class postoEncomenda:
         return len(self.fila_despacho)
 
     
-    def enviarEncomenda (self, caminhao):
+    def enviarEncomenda (self):
         encomenda = self.fila_despacho[0]
         self.fila_despacho.popleft()
         return encomenda 
  
     def receberEncomenda (self, encomenda):
         self.fila_encomendas.append(encomenda)
-        # Encomenda.setCarregado
+        # Encomenda.setCarregado # Atualizar o log da encomenda
         pass
 
     def liberarCaminhao (self):
