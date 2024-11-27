@@ -1,7 +1,7 @@
 import time
 import random
 
-class Veiculo:
+class Caminhao:
     
     def __init__(self, carga_maxima, dist_proximo_posto):
         self.carga_maxima = carga_maxima
