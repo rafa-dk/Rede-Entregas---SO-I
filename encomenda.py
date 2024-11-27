@@ -17,6 +17,7 @@ class Encomenda(threading.Thread):
         self.horario_descarregado = None
 
     def run(self):
+        print(6)
         while self.horario_descarregado is None:
             time.sleep(1)
         self.escreverArq()

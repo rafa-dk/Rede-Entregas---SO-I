@@ -1,4 +1,5 @@
 import threading
+from collections import deque
 import time
 import random
 from caminhao import Caminhao
@@ -56,16 +57,30 @@ if __name__ == "__main__":
     threads_encomendas = []
     threads_caminhoes = []
 
+    '''
     for i in range(n_encomendas):
-        thread = threading.Thread(target=Encomenda, args=(i, n_pontos))
-        thread.setName(f"Encomenda {i}")
+        thread = threading.Thread(target=Encomenda, args=(i, n_pontos), name=f"Encomenda {i}")
         threads_encomendas.append(thread)
         thread.start()
+        print(8)
 
     for i in range(n_caminhoes):
-        thread = threading.Thread(target=Caminhao, args=(i, n_carga_maxima_caminhoes, n_pontos))
-        thread.setName(f"Caminhao {i}")
+        thread = threading.Thread(target=Caminhao, args=(i, n_carga_maxima_caminhoes, n_pontos), name=f"Caminhao {i}")
         threads_caminhoes.append(thread)
+        thread.start()
+        print(9)
+    '''
+
+    # Inicializa e inicia as threads de encomendas
+    threads_encomendas = [Encomenda(i, n_pontos) for i in range(n_encomendas)]
+    for thread in threads_encomendas:
+        thread.name = f"Encomenda {thread.id}"
+        thread.start()
+
+    # Inicializa e inicia as threads de caminhões
+    threads_caminhoes = [Caminhao(i, n_carga_maxima_caminhoes, n_pontos) for i in range(n_caminhoes)]
+    for thread in threads_caminhoes:
+        thread.name = f"Caminhao {thread.id}"
         thread.start()
 
     liberar_threads(threads_encomendas + threads_caminhoes)

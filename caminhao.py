@@ -17,6 +17,7 @@ class Caminhao(threading.Thread):
         pass
 
         def run(self):
+            print(7)
             self.pegarEncomenda()
             pass
 
