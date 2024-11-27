@@ -40,14 +40,18 @@ if __name__ == "__main__":
 
     # Iniciando os threads
     for caminhao in caminhoes:
+        print(1)
         caminhao.start()
 
     for encomenda in encomendas:
+        print(2)
         encomenda.start()
 
     # Aguardando a conclusão
     for caminhao in caminhoes:
+        print(3)
         caminhao.join()
 
     for encomenda in encomendas:
+        print(4)
         encomenda.join()

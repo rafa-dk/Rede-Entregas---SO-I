@@ -53,6 +53,7 @@ class Caminhao(threading.Thread):
 
     def pegarEncomenda (self):
         
+        print(f"Veículo {self.id}: No ponto {self.posto_atual} com {self.carga_maxima-self.semafaro._value} encomendas.")
         while (self.posto_atual.getFilaDesapachoQuantidade() > 0 and self.semaforo._value > 0):
             with self.posto_atual.lock:  # Garante exclusividade ao operar no ponto
                 encomenda = self.posto_atual.enviarEncomenda()
