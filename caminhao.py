@@ -5,9 +5,10 @@ import random
 
 class Caminhao:
     
-    def __init__(self, carga_maxima, dist_proximo_posto):
+    def __init__(self, id, carga_maxima, dist_proximo_posto):
+        self.id = id
         self.carga_maxima = carga_maxima
-        self.distancia_proximo_posto = dist_proximo_posto
+        self.distancia_proximo_posto = dist_proximo_posto # *** não usamos ainda, retirar se for o caso!
         self.posto_atual = None
         self.fila_encomendas = deque()
         pass
@@ -41,10 +42,13 @@ class Caminhao:
                 self.irProProximoPosto(self.posto_atual.getProximoPosto()) # Vai pro próximo posto direto
         pass
 
-    def pegarEncomenda (self, pacote):
-        self.fila_encomendas.append(pacote)
+    def pegarEncomenda (self, encomenda):
+        self.fila_encomendas.append(encomenda)
+        #encomenda.setCarregado() # Atualizar o log da encomenda
         pass
 
-    def deixarEncomenda (self):
+    def deixarEncomenda (self, encomenda):
         # pop da encomenda, mas precisa ser aquela encomenda específica!
+        self.fila_encomendas.remove(encomenda)
+        #encomenda.setDescarregado()
         pass
