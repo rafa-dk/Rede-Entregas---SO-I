@@ -32,10 +32,11 @@ class postoEncomenda:
         pass
     
     def enviarEncomenda (self):
-        while (self.fila_caminhoes[0].getCargasLivres() > 0):
-            time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
-            self.fila_caminhoes[0].pegarEncomenda(self.fila_despacho[0])
-            self.fila_despacho.popleft()
+        if (len(self.fila_despacho) > 0):
+            while (self.fila_caminhoes[0].getCargasLivres() > 0):
+                time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
+                self.fila_caminhoes[0].pegarEncomenda(self.fila_despacho[0])
+                self.fila_despacho.popleft()
         self.liberarCaminhao()
         pass
  
