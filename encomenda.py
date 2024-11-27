@@ -7,7 +7,9 @@ class Encomenda:
     def __init__(self, id, S):
         self.id = id
         self.orig = random.randint(0, S-1)
-        self.dest = random.randint(0, S-1)
+        self.dest = self.orig
+        while self.dest == self.orig:
+            self.dest = random.randint(0, S-1)
         self.horario_chegada = None
         self.horario_carregado = None
         self.caminhao = None
