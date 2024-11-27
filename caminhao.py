@@ -1,6 +1,7 @@
 from collections import deque
 import time
 import random
+import threading
 
 
 class Caminhao:
@@ -23,9 +24,11 @@ class Caminhao:
         
         for encomenda in self.fila_encomendas:
             if encomenda.dest == self.posto_atual.getPostoNum():
-                primeiro_posto.receberCaminhao(self)
+                self.deixarEncomenda()
             elif primeiro_posto.getFilaDespachoQuantidade() > 0:
-                primeiro_posto.receberCaminhao(self)
+                self.pegarEncomenda()
+            else:
+                self.irProProximoPosto(self.posto_atual.getProximoPosto())
         pass
 
     
@@ -35,20 +38,31 @@ class Caminhao:
         
         for encomenda in self.fila_encomendas:
             if encomenda.dest == self.posto_atual.getPostoNum():
-                self.posto_atual.receberCaminhao(self)
+                self.deixarEncomenda()
             elif self.posto_atual.getFilaDespachoQuantidade() > 0 and self.getCargasLivres() > 0: # Entra na fila caso possua espaços livres 
-                self.posto_atual.receberCaminhao(self)
+                self.pegarEncomenda()
             else:
                 self.irProProximoPosto(self.posto_atual.getProximoPosto()) # Vai pro próximo posto direto
         pass
 
-    def pegarEncomenda (self, encomenda):
-        self.fila_encomendas.append(encomenda)
-        #encomenda.setCarregado() # Atualizar o log da encomenda
+    def pegarEncomenda (self):
+        
+        while (self.getCargasLivres() > 0 and self.posto_atual.getFilaDesapachoQuantidade() > 0):
+            time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
+            encomenda = self.posto_atual.enviarEncomenda(self)
+            self.fila_encomendas.append(encomenda)
+            #encomenda.setCarregado() # Atualizar o log da encomenda
+
+        # thread release ??? ***************************************************
+        self.irProProximoPosto(self.posto_atual.getProxPosto())
         pass
 
-    def deixarEncomenda (self, encomenda):
-        # pop da encomenda, mas precisa ser aquela encomenda específica!
-        self.fila_encomendas.remove(encomenda)
-        #encomenda.setDescarregado()
+    def deixarEncomenda (self):
+        # thread acquire ??? **************************************************
+        for encomenda in self.fila_encomendas:
+            if (encomenda.dest == self.posto_atual):
+                time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
+                self.posto_atual.receberEncomenda(encomenda)
+                self.fila_encomendas.remove(encomenda)
+        self.pegarEncomenda()
         pass
