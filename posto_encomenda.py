@@ -26,24 +26,30 @@ class postoEncomenda:
         self.proximo_posto = proximo_posto
         pass
     
-    def getProxPosto (self): # Tratar para caso NONE
+    def getProxPosto (self):  
         return self.proximo_posto 
 
     def getPostoNum (self):
         return self.num
     
-    def getFilaDesapachoQuantidade(self):
+    def getFilaDespachoQuantidade(self):
         return len(self.fila_despacho)
 
     
     def enviarEncomenda (self):
-        encomenda = self.fila_despacho[0]
-        self.fila_despacho.popleft()
-        return encomenda 
+        if self.fila_despacho:
+            encomenda = self.fila_despacho[0]
+            encomenda_aux = encomenda
+            self.fila_despacho.remove(encomenda)
+            return encomenda_aux
+        return -1
  
     def receberEncomenda (self, encomenda):
-        self.fila_encomendas.append(encomenda)
-        # Encomenda.setCarregado # Atualizar o log da encomenda
+        self.fila_encomendas.append(encomenda) 
+        pass
+
+    def chegarEncomenda (self, encomenda): # Quando a encomenda é inicializada, ela chega num ponto de encomenda
+        self.fila_despacho.append(encomenda) 
         pass
 
     def liberarCaminhao (self):
