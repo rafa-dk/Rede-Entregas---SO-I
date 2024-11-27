@@ -3,10 +3,11 @@ import time
 import random
 
 class Encomenda:
-    def __init__(self, num, orig, dest):
-        self.num = num
-        self.orig = orig
-        self.dest = dest
+
+    def __init__(self, id, S):
+        self.id = id
+        self.orig = random.randint(0, S-1)
+        self.dest = random.randint(0, S-1)
         self.horario_chegada = None
         self.horario_carregado = None
         self.caminhao = None
@@ -25,7 +26,13 @@ class Encomenda:
         self.horario_descarregado = horario
 
     def getNum(self):
-        return self.num
+        return self.id
+    
+    def getOrig(self):
+        return self.orig
+    
+    def getRest(self):
+        return self.dest
 
     #Nao precisa necessariamente ser um metodo dessa classe
     def monitoramento(S, lista_pontos, caminhao):
@@ -38,9 +45,9 @@ class Encomenda:
         time.sleep(1)
 
     def escreverArq(self, log):
-        filename = f"package_{self.num}_log.txt"
+        filename = f"package_{self.id}_log.txt"
         with open(filename, "w") as file:
-            file.write("Numero da Encomenda: {}\n".format(self.num))
+            file.write("Numero da Encomenda: {}\n".format(self.id))
             file.write("Ponto de Origem: {}\n".format(log["orig"]))
             file.write("Ponto de Destino: {}\n".format(log["dest"]))
             file.write("Horario de Chegada ao Ponto de Origem: {}\n".format(log["horario_chegada"]))
