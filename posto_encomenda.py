@@ -1,7 +1,7 @@
 from collections import deque
 import time
 import random
-
+import threading
 
 class postoEncomenda:
  
@@ -12,6 +12,7 @@ class postoEncomenda:
         self.fila_caminhoes = deque()
         self.fila_encomendas = deque()
         self.fila_despacho = deque()
+        self.lock = threading.Lock()  # Mutex para controlar um veículo por vez
         pass
 
     def setProxPosto (self, proximo_posto):
