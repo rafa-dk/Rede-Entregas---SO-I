@@ -13,7 +13,7 @@ class Caminhao:
         pass
 
     def getCargasLivres(self):
-        return self.carga_maxima - self.fila_encomendas.count()
+        return self.carga_maxima - len(self.fila_encomendas)
 
 
     def irProProximoPosto (self, primeiro_posto): # Usar na main durante a primeira viagem do caminhão
@@ -35,7 +35,7 @@ class Caminhao:
         for encomenda in self.fila_encomendas:
             if encomenda.dest == self.posto_atual.getPostoNum():
                 self.posto_atual.receberCaminhao(self)
-            elif self.posto_atual.getFilaDespachoQuantidade() > 0 and self.getCargasLivres > 0: # Entra na fila caso possua espaços livres 
+            elif self.posto_atual.getFilaDespachoQuantidade() > 0 and self.getCargasLivres() > 0: # Entra na fila caso possua espaços livres 
                 self.posto_atual.receberCaminhao(self)
             else:
                 self.irProProximoPosto(self.posto_atual.getProximoPosto()) # Vai pro próximo posto direto
