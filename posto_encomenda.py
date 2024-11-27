@@ -1,7 +1,7 @@
 from collections import deque
 import time
 import random
-
+import threading
 
 class postoEncomenda:
  
@@ -12,42 +12,44 @@ class postoEncomenda:
         self.fila_caminhoes = deque()
         self.fila_encomendas = deque()
         self.fila_despacho = deque()
+        self.lock = threading.Lock()  # Mutex para controlar um veículo por vez
+        pass
+
+    def run(self, qtd_postos):
+        if (self.num != qtd_postos):
+            self.setProxPosto(self.num + 1)
+        else:
+            self.setProxPosto(0)
         pass
 
     def setProxPosto (self, proximo_posto):
         self.proximo_posto = proximo_posto
         pass
     
-    def getProxPosto (self): # Tratar para caso NONE
+    def getProxPosto (self):  
         return self.proximo_posto 
 
     def getPostoNum (self):
         return self.num
     
-    def getFilaDesapachoQuantidade(self):
+    def getFilaDespachoQuantidade(self):
         return len(self.fila_despacho)
 
-    def receberCaminhao (self, caminhao):
-        self.fila_caminhoes.append(caminhao)
-        pass
     
     def enviarEncomenda (self):
-        if (len(self.fila_despacho) > 0):
-            while (self.fila_caminhoes[0].getCargasLivres() > 0):
-                time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
-                self.fila_caminhoes[0].pegarEncomenda(self.fila_despacho[0])
-                self.fila_despacho.popleft()
-        self.liberarCaminhao()
-        pass
+        if self.fila_despacho:
+            encomenda = self.fila_despacho[0]
+            encomenda_aux = encomenda
+            self.fila_despacho.remove(encomenda)
+            return encomenda_aux
+        return -1
  
-    def receberEncomenda (self):
-        for encomenda in self.fila_caminhoes[0].fila_encomendas:
-            if encomenda.dest == self.num:
-                time.sleep(random.uniform(0.1, 0.5)) # Tempo de despacho
-                self.fila_encomendas.append(encomenda)
-                self.fila_caminhoes[0].deixarEncomenda(self.fila_despacho[0])
-                # Encomenda.setCarregado
-        self.enviarEncomenda()
+    def receberEncomenda (self, encomenda):
+        self.fila_encomendas.append(encomenda) 
+        pass
+
+    def chegarEncomenda (self, encomenda): # Quando a encomenda é inicializada, ela chega num ponto de encomenda
+        self.fila_despacho.append(encomenda) 
         pass
 
     def liberarCaminhao (self):
