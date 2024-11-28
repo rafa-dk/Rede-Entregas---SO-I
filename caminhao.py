@@ -11,7 +11,6 @@ class Caminhao(threading.Thread):
         super().__init__()  # Chama o construtor da classe base threading.Thread
         self.id = id 
         self.parada = parada
-        self.encomenda = Encomenda()
         self.carga_maxima = carga_maxima
         self.posto_atual = random.choice(pontos)
         self.fila_encomendas = deque()
